@@ -1,0 +1,84 @@
+Jan 23, 7 p.m
+
+PING flipkart.com (163.53.78.128) 56(84) bytes of data.
+64 bytes from 163.53.78.128 (163.53.78.128): icmp_seq=1 ttl=58 time=67.9 ms
+64 bytes from 163.53.78.128 (163.53.78.128): icmp_seq=2 ttl=58 time=87.1 ms
+64 bytes from 163.53.78.128 (163.53.78.128): icmp_seq=3 ttl=58 time=68.1 ms
+64 bytes from 163.53.78.128 (163.53.78.128): icmp_seq=4 ttl=58 time=67.4 ms
+64 bytes from 163.53.78.128 (163.53.78.128): icmp_seq=5 ttl=58 time=126 ms
+64 bytes from 163.53.78.128 (163.53.78.128): icmp_seq=6 ttl=58 time=71.4 ms
+64 bytes from 163.53.78.128 (163.53.78.128): icmp_seq=7 ttl=58 time=75.1 ms
+64 bytes from 163.53.78.128 (163.53.78.128): icmp_seq=8 ttl=58 time=68.8 ms
+64 bytes from 163.53.78.128 (163.53.78.128): icmp_seq=9 ttl=58 time=68.5 ms
+64 bytes from 163.53.78.128 (163.53.78.128): icmp_seq=10 ttl=58 time=68.7 ms
+64 bytes from 163.53.78.128 (163.53.78.128): icmp_seq=11 ttl=58 time=242 ms
+64 bytes from 163.53.78.128 (163.53.78.128): icmp_seq=12 ttl=58 time=75.5 ms
+64 bytes from 163.53.78.128 (163.53.78.128): icmp_seq=13 ttl=58 time=67.6 ms
+64 bytes from 163.53.78.128 (163.53.78.128): icmp_seq=14 ttl=58 time=69.1 ms
+64 bytes from 163.53.78.128 (163.53.78.128): icmp_seq=15 ttl=58 time=68.1 ms
+64 bytes from 163.53.78.128 (163.53.78.128): icmp_seq=16 ttl=58 time=71.4 ms
+64 bytes from 163.53.78.128 (163.53.78.128): icmp_seq=17 ttl=58 time=69.1 ms
+64 bytes from 163.53.78.128 (163.53.78.128): icmp_seq=18 ttl=58 time=72.0 ms
+64 bytes from 163.53.78.128 (163.53.78.128): icmp_seq=19 ttl=58 time=69.8 ms
+64 bytes from 163.53.78.128 (163.53.78.128): icmp_seq=20 ttl=58 time=68.3 ms
+
+--- flipkart.com ping statistics ---
+20 packets transmitted, 20 received, 0% packet loss, time 19009ms
+rtt min/avg/max/mdev = 67.437/82.189/242.645/38.983 ms
+
+Jan 24, 1 a.m
+
+PING 163.53.78.128 (163.53.78.128) 56(84) bytes of data.
+64 bytes from 163.53.78.128: icmp_seq=1 ttl=58 time=137 ms
+64 bytes from 163.53.78.128: icmp_seq=2 ttl=58 time=76.5 ms
+64 bytes from 163.53.78.128: icmp_seq=3 ttl=58 time=77.0 ms
+64 bytes from 163.53.78.128: icmp_seq=4 ttl=58 time=76.8 ms
+64 bytes from 163.53.78.128: icmp_seq=5 ttl=58 time=76.9 ms
+64 bytes from 163.53.78.128: icmp_seq=6 ttl=58 time=77.0 ms
+64 bytes from 163.53.78.128: icmp_seq=7 ttl=58 time=78.7 ms
+64 bytes from 163.53.78.128: icmp_seq=8 ttl=58 time=76.9 ms
+64 bytes from 163.53.78.128: icmp_seq=9 ttl=58 time=77.0 ms
+64 bytes from 163.53.78.128: icmp_seq=10 ttl=58 time=76.8 ms
+64 bytes from 163.53.78.128: icmp_seq=11 ttl=58 time=76.9 ms
+64 bytes from 163.53.78.128: icmp_seq=12 ttl=58 time=76.8 ms
+64 bytes from 163.53.78.128: icmp_seq=13 ttl=58 time=76.9 ms
+64 bytes from 163.53.78.128: icmp_seq=14 ttl=58 time=76.5 ms
+64 bytes from 163.53.78.128: icmp_seq=15 ttl=58 time=81.2 ms
+64 bytes from 163.53.78.128: icmp_seq=16 ttl=58 time=76.8 ms
+64 bytes from 163.53.78.128: icmp_seq=17 ttl=58 time=77.0 ms
+64 bytes from 163.53.78.128: icmp_seq=18 ttl=58 time=76.6 ms
+64 bytes from 163.53.78.128: icmp_seq=19 ttl=58 time=76.6 ms
+64 bytes from 163.53.78.128: icmp_seq=20 ttl=58 time=76.9 ms
+
+--- 163.53.78.128 ping statistics ---
+20 packets transmitted, 20 received, 0% packet loss, time 19027ms
+rtt min/avg/max/mdev = 76.518/80.221/137.693/13.224 ms
+
+Jan 24, 1 p.m 
+
+PING 163.53.78.128 (163.53.78.128) 56(84) bytes of data.
+64 bytes from 163.53.78.128: icmp_seq=1 ttl=58 time=65.4 ms
+64 bytes from 163.53.78.128: icmp_seq=2 ttl=58 time=65.3 ms
+64 bytes from 163.53.78.128: icmp_seq=3 ttl=58 time=114 ms
+64 bytes from 163.53.78.128: icmp_seq=4 ttl=58 time=65.4 ms
+64 bytes from 163.53.78.128: icmp_seq=5 ttl=58 time=65.5 ms
+64 bytes from 163.53.78.128: icmp_seq=6 ttl=58 time=65.4 ms
+64 bytes from 163.53.78.128: icmp_seq=7 ttl=58 time=65.5 ms
+64 bytes from 163.53.78.128: icmp_seq=8 ttl=58 time=65.5 ms
+64 bytes from 163.53.78.128: icmp_seq=9 ttl=58 time=65.9 ms
+64 bytes from 163.53.78.128: icmp_seq=10 ttl=58 time=65.5 ms
+64 bytes from 163.53.78.128: icmp_seq=11 ttl=58 time=65.5 ms
+64 bytes from 163.53.78.128: icmp_seq=12 ttl=58 time=65.7 ms
+64 bytes from 163.53.78.128: icmp_seq=13 ttl=58 time=65.7 ms
+64 bytes from 163.53.78.128: icmp_seq=14 ttl=58 time=65.6 ms
+64 bytes from 163.53.78.128: icmp_seq=15 ttl=58 time=65.7 ms
+64 bytes from 163.53.78.128: icmp_seq=16 ttl=58 time=65.6 ms
+64 bytes from 163.53.78.128: icmp_seq=17 ttl=58 time=65.3 ms
+64 bytes from 163.53.78.128: icmp_seq=18 ttl=58 time=65.5 ms
+64 bytes from 163.53.78.128: icmp_seq=19 ttl=58 time=65.2 ms
+64 bytes from 163.53.78.128: icmp_seq=20 ttl=58 time=65.8 ms
+
+--- 163.53.78.128 ping statistics ---
+20 packets transmitted, 20 received, 0% packet loss, time 19037ms
+rtt min/avg/max/mdev = 65.260/68.014/114.183/10.593 ms
+

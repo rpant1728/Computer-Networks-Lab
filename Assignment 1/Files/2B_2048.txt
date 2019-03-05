@@ -1,0 +1,88 @@
+Jan 23, 7 p.m
+
+PING 163.53.78.128 (163.53.78.128) 2048(2076) bytes of data.
+2056 bytes from 163.53.78.128: icmp_seq=1 ttl=58 time=137 ms
+2056 bytes from 163.53.78.128: icmp_seq=2 ttl=58 time=75.8 ms
+2056 bytes from 163.53.78.128: icmp_seq=3 ttl=58 time=172 ms
+2056 bytes from 163.53.78.128: icmp_seq=4 ttl=58 time=137 ms
+2056 bytes from 163.53.78.128: icmp_seq=5 ttl=58 time=139 ms
+2056 bytes from 163.53.78.128: icmp_seq=6 ttl=58 time=144 ms
+2056 bytes from 163.53.78.128: icmp_seq=7 ttl=58 time=139 ms
+2056 bytes from 163.53.78.128: icmp_seq=8 ttl=58 time=174 ms
+2056 bytes from 163.53.78.128: icmp_seq=9 ttl=58 time=127 ms
+2056 bytes from 163.53.78.128: icmp_seq=10 ttl=58 time=1132 ms
+2056 bytes from 163.53.78.128: icmp_seq=11 ttl=58 time=168 ms
+2056 bytes from 163.53.78.128: icmp_seq=12 ttl=58 time=168 ms
+2056 bytes from 163.53.78.128: icmp_seq=13 ttl=58 time=136 ms
+2056 bytes from 163.53.78.128: icmp_seq=14 ttl=58 time=137 ms
+2056 bytes from 163.53.78.128: icmp_seq=15 ttl=58 time=138 ms
+2056 bytes from 163.53.78.128: icmp_seq=16 ttl=58 time=799 ms
+2056 bytes from 163.53.78.128: icmp_seq=17 ttl=58 time=171 ms
+2056 bytes from 163.53.78.128: icmp_seq=18 ttl=58 time=850 ms
+2056 bytes from 163.53.78.128: icmp_seq=19 ttl=58 time=135 ms
+2056 bytes from 163.53.78.128: icmp_seq=20 ttl=58 time=114 ms
+
+--- 163.53.78.128 ping statistics ---
+20 packets transmitted, 20 received, 0% packet loss, time 19051ms
+rtt min/avg/max/mdev = 75.889/260.072/1132.196/286.835 ms, pipe 2
+
+
+Jan 24, 1 a.m 
+
+PING 163.53.78.128 (163.53.78.128) 2048(2076) bytes of data.
+2056 bytes from 163.53.78.128: icmp_seq=1 ttl=58 time=83.1 ms
+2056 bytes from 163.53.78.128: icmp_seq=2 ttl=58 time=184 ms
+2056 bytes from 163.53.78.128: icmp_seq=3 ttl=58 time=101 ms
+2056 bytes from 163.53.78.128: icmp_seq=4 ttl=58 time=137 ms
+2056 bytes from 163.53.78.128: icmp_seq=5 ttl=58 time=121 ms
+2056 bytes from 163.53.78.128: icmp_seq=6 ttl=58 time=138 ms
+2056 bytes from 163.53.78.128: icmp_seq=7 ttl=58 time=110 ms
+2056 bytes from 163.53.78.128: icmp_seq=8 ttl=58 time=73.9 ms
+2056 bytes from 163.53.78.128: icmp_seq=9 ttl=58 time=137 ms
+2056 bytes from 163.53.78.128: icmp_seq=10 ttl=58 time=133 ms
+2056 bytes from 163.53.78.128: icmp_seq=11 ttl=58 time=73.8 ms
+2056 bytes from 163.53.78.128: icmp_seq=12 ttl=58 time=217 ms
+2056 bytes from 163.53.78.128: icmp_seq=13 ttl=58 time=74.0 ms
+2056 bytes from 163.53.78.128: icmp_seq=14 ttl=58 time=161 ms
+2056 bytes from 163.53.78.128: icmp_seq=15 ttl=58 time=165 ms
+2056 bytes from 163.53.78.128: icmp_seq=16 ttl=58 time=170 ms
+2056 bytes from 163.53.78.128: icmp_seq=17 ttl=58 time=135 ms
+2056 bytes from 163.53.78.128: icmp_seq=18 ttl=58 time=73.0 ms
+2056 bytes from 163.53.78.128: icmp_seq=19 ttl=58 time=798 ms
+2056 bytes from 163.53.78.128: icmp_seq=20 ttl=58 time=147 ms
+
+--- 163.53.78.128 ping statistics ---
+20 packets transmitted, 20 received, 0% packet loss, time 19023ms
+rtt min/avg/max/mdev = 73.012/161.965/798.012/151.174 ms
+
+
+Jan 24, 1 p.m 
+
+PING 163.53.78.128 (163.53.78.128) 2048(2076) bytes of data.
+2056 bytes from 163.53.78.128: icmp_seq=1 ttl=58 time=113 ms
+2056 bytes from 163.53.78.128: icmp_seq=2 ttl=58 time=819 ms
+2056 bytes from 163.53.78.128: icmp_seq=3 ttl=58 time=171 ms
+2056 bytes from 163.53.78.128: icmp_seq=4 ttl=58 time=139 ms
+2056 bytes from 163.53.78.128: icmp_seq=5 ttl=58 time=73.9 ms
+2056 bytes from 163.53.78.128: icmp_seq=6 ttl=58 time=73.6 ms
+2056 bytes from 163.53.78.128: icmp_seq=7 ttl=58 time=213 ms
+2056 bytes from 163.53.78.128: icmp_seq=8 ttl=58 time=73.6 ms
+2056 bytes from 163.53.78.128: icmp_seq=9 ttl=58 time=109 ms
+2056 bytes from 163.53.78.128: icmp_seq=10 ttl=58 time=1330 ms
+2056 bytes from 163.53.78.128: icmp_seq=11 ttl=58 time=319 ms
+2056 bytes from 163.53.78.128: icmp_seq=12 ttl=58 time=111 ms
+2056 bytes from 163.53.78.128: icmp_seq=13 ttl=58 time=138 ms
+2056 bytes from 163.53.78.128: icmp_seq=14 ttl=58 time=186 ms
+2056 bytes from 163.53.78.128: icmp_seq=15 ttl=58 time=203 ms
+2056 bytes from 163.53.78.128: icmp_seq=16 ttl=58 time=124 ms
+2056 bytes from 163.53.78.128: icmp_seq=17 ttl=58 time=150 ms
+2056 bytes from 163.53.78.128: icmp_seq=18 ttl=58 time=182 ms
+2056 bytes from 163.53.78.128: icmp_seq=19 ttl=58 time=73.7 ms
+2056 bytes from 163.53.78.128: icmp_seq=20 ttl=58 time=77.8 ms
+
+--- 163.53.78.128 ping statistics ---
+20 packets transmitted, 20 received, 0% packet loss, time 19041ms
+rtt min/avg/max/mdev = 73.675/234.320/1330.539/297.688 ms, pipe 2
+
+
+

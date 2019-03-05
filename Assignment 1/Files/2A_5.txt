@@ -1,0 +1,85 @@
+Jan 23, 7 p.m
+
+PING youtube.com (216.58.200.142) 56(84) bytes of data.
+64 bytes from maa05s10-in-f14.1e100.net (216.58.200.142): icmp_seq=1 ttl=54 time=146 ms
+64 bytes from maa05s10-in-f14.1e100.net (216.58.200.142): icmp_seq=2 ttl=54 time=172 ms
+64 bytes from maa05s10-in-f14.1e100.net (216.58.200.142): icmp_seq=3 ttl=54 time=71.7 ms
+64 bytes from maa05s10-in-f14.1e100.net (216.58.200.142): icmp_seq=4 ttl=54 time=71.5 ms
+64 bytes from maa05s10-in-f14.1e100.net (216.58.200.142): icmp_seq=5 ttl=54 time=73.0 ms
+64 bytes from maa05s10-in-f14.1e100.net (216.58.200.142): icmp_seq=6 ttl=54 time=140 ms
+64 bytes from maa05s10-in-f14.1e100.net (216.58.200.142): icmp_seq=7 ttl=54 time=71.1 ms
+64 bytes from maa05s10-in-f14.1e100.net (216.58.200.142): icmp_seq=8 ttl=54 time=120 ms
+64 bytes from maa05s10-in-f14.1e100.net (216.58.200.142): icmp_seq=9 ttl=54 time=70.2 ms
+64 bytes from maa05s10-in-f14.1e100.net (216.58.200.142): icmp_seq=10 ttl=54 time=69.8 ms
+64 bytes from maa05s10-in-f14.1e100.net (216.58.200.142): icmp_seq=11 ttl=54 time=69.0 ms
+64 bytes from maa05s10-in-f14.1e100.net (216.58.200.142): icmp_seq=12 ttl=54 time=234 ms
+64 bytes from maa05s10-in-f14.1e100.net (216.58.200.142): icmp_seq=13 ttl=54 time=71.2 ms
+64 bytes from maa05s10-in-f14.1e100.net (216.58.200.142): icmp_seq=14 ttl=54 time=106 ms
+64 bytes from maa05s10-in-f14.1e100.net (216.58.200.142): icmp_seq=15 ttl=54 time=73.1 ms
+64 bytes from maa05s10-in-f14.1e100.net (216.58.200.142): icmp_seq=16 ttl=54 time=253 ms
+64 bytes from maa05s10-in-f14.1e100.net (216.58.200.142): icmp_seq=17 ttl=54 time=69.6 ms
+64 bytes from maa05s10-in-f14.1e100.net (216.58.200.142): icmp_seq=18 ttl=54 time=70.9 ms
+64 bytes from maa05s10-in-f14.1e100.net (216.58.200.142): icmp_seq=19 ttl=54 time=72.0 ms
+64 bytes from maa05s10-in-f14.1e100.net (216.58.200.142): icmp_seq=20 ttl=54 time=84.3 ms
+
+--- youtube.com ping statistics ---
+20 packets transmitted, 20 received, 0% packet loss, time 19031ms
+rtt min/avg/max/mdev = 69.044/105.653/253.653/55.167 ms
+
+Jan 24, 1 a.m
+
+PING youtube.com (216.58.200.142) 56(84) bytes of data.
+64 bytes from maa03s23-in-f14.1e100.net (216.58.200.142): icmp_seq=1 ttl=54 time=113 ms
+64 bytes from maa03s23-in-f14.1e100.net (216.58.200.142): icmp_seq=2 ttl=54 time=78.2 ms
+64 bytes from maa03s23-in-f14.1e100.net (216.58.200.142): icmp_seq=3 ttl=54 time=80.4 ms
+64 bytes from maa03s23-in-f14.1e100.net (216.58.200.142): icmp_seq=4 ttl=54 time=493 ms
+64 bytes from maa03s23-in-f14.1e100.net (216.58.200.142): icmp_seq=5 ttl=54 time=78.1 ms
+64 bytes from maa03s23-in-f14.1e100.net (216.58.200.142): icmp_seq=6 ttl=54 time=78.0 ms
+64 bytes from maa03s23-in-f14.1e100.net (216.58.200.142): icmp_seq=7 ttl=54 time=494 ms
+64 bytes from maa03s23-in-f14.1e100.net (216.58.200.142): icmp_seq=8 ttl=54 time=79.9 ms
+64 bytes from maa03s23-in-f14.1e100.net (216.58.200.142): icmp_seq=9 ttl=54 time=79.0 ms
+64 bytes from maa03s23-in-f14.1e100.net (216.58.200.142): icmp_seq=10 ttl=54 time=78.0 ms
+64 bytes from maa03s23-in-f14.1e100.net (216.58.200.142): icmp_seq=11 ttl=54 time=78.2 ms
+64 bytes from maa03s23-in-f14.1e100.net (216.58.200.142): icmp_seq=12 ttl=54 time=78.0 ms
+64 bytes from maa03s23-in-f14.1e100.net (216.58.200.142): icmp_seq=13 ttl=54 time=490 ms
+64 bytes from maa03s23-in-f14.1e100.net (216.58.200.142): icmp_seq=14 ttl=54 time=77.9 ms
+64 bytes from maa03s23-in-f14.1e100.net (216.58.200.142): icmp_seq=15 ttl=54 time=493 ms
+64 bytes from maa03s23-in-f14.1e100.net (216.58.200.142): icmp_seq=16 ttl=54 time=78.1 ms
+64 bytes from maa03s23-in-f14.1e100.net (216.58.200.142): icmp_seq=17 ttl=54 time=78.0 ms
+64 bytes from maa03s23-in-f14.1e100.net (216.58.200.142): icmp_seq=18 ttl=54 time=490 ms
+64 bytes from maa03s23-in-f14.1e100.net (216.58.200.142): icmp_seq=19 ttl=54 time=78.5 ms
+64 bytes from maa03s23-in-f14.1e100.net (216.58.200.142): icmp_seq=20 ttl=54 time=78.4 ms
+
+--- youtube.com ping statistics ---
+20 packets transmitted, 20 received, 0% packet loss, time 19020ms
+rtt min/avg/max/mdev = 77.966/183.739/494.316/178.404 ms
+
+Jan 24, 1 p.m 
+
+PING 216.58.200.142 (216.58.200.142) 56(84) bytes of data.
+64 bytes from 216.58.200.142: icmp_seq=1 ttl=54 time=65.2 ms
+64 bytes from 216.58.200.142: icmp_seq=2 ttl=54 time=65.1 ms
+64 bytes from 216.58.200.142: icmp_seq=3 ttl=54 time=64.6 ms
+64 bytes from 216.58.200.142: icmp_seq=4 ttl=54 time=64.9 ms
+64 bytes from 216.58.200.142: icmp_seq=5 ttl=54 time=64.5 ms
+64 bytes from 216.58.200.142: icmp_seq=6 ttl=54 time=65.0 ms
+64 bytes from 216.58.200.142: icmp_seq=7 ttl=54 time=64.7 ms
+64 bytes from 216.58.200.142: icmp_seq=8 ttl=54 time=65.1 ms
+64 bytes from 216.58.200.142: icmp_seq=9 ttl=54 time=65.1 ms
+64 bytes from 216.58.200.142: icmp_seq=10 ttl=54 time=65.1 ms
+64 bytes from 216.58.200.142: icmp_seq=11 ttl=54 time=65.0 ms
+64 bytes from 216.58.200.142: icmp_seq=12 ttl=54 time=65.4 ms
+64 bytes from 216.58.200.142: icmp_seq=13 ttl=54 time=65.0 ms
+64 bytes from 216.58.200.142: icmp_seq=14 ttl=54 time=65.2 ms
+64 bytes from 216.58.200.142: icmp_seq=15 ttl=54 time=65.2 ms
+64 bytes from 216.58.200.142: icmp_seq=16 ttl=54 time=65.0 ms
+64 bytes from 216.58.200.142: icmp_seq=17 ttl=54 time=64.9 ms
+64 bytes from 216.58.200.142: icmp_seq=18 ttl=54 time=65.1 ms
+64 bytes from 216.58.200.142: icmp_seq=19 ttl=54 time=64.6 ms
+64 bytes from 216.58.200.142: icmp_seq=20 ttl=54 time=64.6 ms
+
+--- 216.58.200.142 ping statistics ---
+20 packets transmitted, 20 received, 0% packet loss, time 19030ms
+rtt min/avg/max/mdev = 64.546/65.014/65.437/0.423 ms
+
+

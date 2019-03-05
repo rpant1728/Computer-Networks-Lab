@@ -1,0 +1,85 @@
+Jan 23, 7 p.m
+
+PING google.com (216.58.196.174) 56(84) bytes of data.
+64 bytes from maa03s31-in-f14.1e100.net (216.58.196.174): icmp_seq=1 ttl=54 time=69.3 ms
+64 bytes from maa03s31-in-f14.1e100.net (216.58.196.174): icmp_seq=2 ttl=54 time=69.7 ms
+64 bytes from maa03s31-in-f14.1e100.net (216.58.196.174): icmp_seq=3 ttl=54 time=69.0 ms
+64 bytes from maa03s31-in-f14.1e100.net (216.58.196.174): icmp_seq=4 ttl=54 time=72.7 ms
+64 bytes from maa03s31-in-f14.1e100.net (216.58.196.174): icmp_seq=5 ttl=54 time=70.1 ms
+64 bytes from maa03s31-in-f14.1e100.net (216.58.196.174): icmp_seq=6 ttl=54 time=182 ms
+64 bytes from maa03s31-in-f14.1e100.net (216.58.196.174): icmp_seq=7 ttl=54 time=118 ms
+64 bytes from maa03s31-in-f14.1e100.net (216.58.196.174): icmp_seq=8 ttl=54 time=107 ms
+64 bytes from maa03s31-in-f14.1e100.net (216.58.196.174): icmp_seq=9 ttl=54 time=70.8 ms
+64 bytes from maa03s31-in-f14.1e100.net (216.58.196.174): icmp_seq=10 ttl=54 time=343 ms
+64 bytes from maa03s31-in-f14.1e100.net (216.58.196.174): icmp_seq=11 ttl=54 time=193 ms
+64 bytes from maa03s31-in-f14.1e100.net (216.58.196.174): icmp_seq=12 ttl=54 time=103 ms
+64 bytes from maa03s31-in-f14.1e100.net (216.58.196.174): icmp_seq=13 ttl=54 time=69.6 ms
+64 bytes from maa03s31-in-f14.1e100.net (216.58.196.174): icmp_seq=14 ttl=54 time=70.4 ms
+64 bytes from maa03s31-in-f14.1e100.net (216.58.196.174): icmp_seq=15 ttl=54 time=71.4 ms
+64 bytes from maa03s31-in-f14.1e100.net (216.58.196.174): icmp_seq=16 ttl=54 time=70.2 ms
+64 bytes from maa03s31-in-f14.1e100.net (216.58.196.174): icmp_seq=17 ttl=54 time=72.3 ms
+64 bytes from maa03s31-in-f14.1e100.net (216.58.196.174): icmp_seq=18 ttl=54 time=235 ms
+64 bytes from maa03s31-in-f14.1e100.net (216.58.196.174): icmp_seq=19 ttl=54 time=71.4 ms
+64 bytes from maa03s31-in-f14.1e100.net (216.58.196.174): icmp_seq=20 ttl=54 time=72.3 ms
+
+--- google.com ping statistics ---
+20 packets transmitted, 20 received, 0% packet loss, time 19033ms
+rtt min/avg/max/mdev = 69.029/110.246/343.233/71.615 ms
+
+Jan 24, 1 a.m 
+
+PING google.com (216.58.196.174) 56(84) bytes of data.
+64 bytes from maa05s10-in-f14.1e100.net (216.58.196.174): icmp_seq=1 ttl=54 time=76.2 ms
+64 bytes from maa05s10-in-f14.1e100.net (216.58.196.174): icmp_seq=2 ttl=54 time=76.7 ms
+64 bytes from maa05s10-in-f14.1e100.net (216.58.196.174): icmp_seq=3 ttl=54 time=77.0 ms
+64 bytes from maa05s10-in-f14.1e100.net (216.58.196.174): icmp_seq=4 ttl=54 time=77.3 ms
+64 bytes from maa05s10-in-f14.1e100.net (216.58.196.174): icmp_seq=5 ttl=54 time=493 ms
+64 bytes from maa05s10-in-f14.1e100.net (216.58.196.174): icmp_seq=6 ttl=54 time=77.3 ms
+64 bytes from maa05s10-in-f14.1e100.net (216.58.196.174): icmp_seq=7 ttl=54 time=77.8 ms
+64 bytes from maa05s10-in-f14.1e100.net (216.58.196.174): icmp_seq=8 ttl=54 time=77.6 ms
+64 bytes from maa05s10-in-f14.1e100.net (216.58.196.174): icmp_seq=9 ttl=54 time=77.7 ms
+64 bytes from maa05s10-in-f14.1e100.net (216.58.196.174): icmp_seq=10 ttl=54 time=78.0 ms
+64 bytes from maa05s10-in-f14.1e100.net (216.58.196.174): icmp_seq=11 ttl=54 time=78.0 ms
+64 bytes from maa05s10-in-f14.1e100.net (216.58.196.174): icmp_seq=12 ttl=54 time=78.0 ms
+64 bytes from maa05s10-in-f14.1e100.net (216.58.196.174): icmp_seq=13 ttl=54 time=78.1 ms
+64 bytes from maa05s10-in-f14.1e100.net (216.58.196.174): icmp_seq=14 ttl=54 time=78.3 ms
+64 bytes from maa05s10-in-f14.1e100.net (216.58.196.174): icmp_seq=15 ttl=54 time=138 ms
+64 bytes from maa05s10-in-f14.1e100.net (216.58.196.174): icmp_seq=16 ttl=54 time=78.3 ms
+64 bytes from maa05s10-in-f14.1e100.net (216.58.196.174): icmp_seq=17 ttl=54 time=78.4 ms
+64 bytes from maa05s10-in-f14.1e100.net (216.58.196.174): icmp_seq=18 ttl=54 time=78.0 ms
+64 bytes from maa05s10-in-f14.1e100.net (216.58.196.174): icmp_seq=19 ttl=54 time=78.4 ms
+64 bytes from maa05s10-in-f14.1e100.net (216.58.196.174): icmp_seq=20 ttl=54 time=78.4 ms
+
+--- google.com ping statistics ---
+20 packets transmitted, 20 received, 0% packet loss, time 19028ms
+rtt min/avg/max/mdev = 76.261/101.602/493.454/90.856 ms
+
+Jan 24, 1 p.m
+
+PING 216.58.196.174 (216.58.196.174) 56(84) bytes of data.
+64 bytes from 216.58.196.174: icmp_seq=1 ttl=54 time=66.2 ms
+64 bytes from 216.58.196.174: icmp_seq=2 ttl=54 time=65.9 ms
+64 bytes from 216.58.196.174: icmp_seq=3 ttl=54 time=66.1 ms
+64 bytes from 216.58.196.174: icmp_seq=4 ttl=54 time=117 ms
+64 bytes from 216.58.196.174: icmp_seq=5 ttl=54 time=113 ms
+64 bytes from 216.58.196.174: icmp_seq=6 ttl=54 time=65.4 ms
+64 bytes from 216.58.196.174: icmp_seq=7 ttl=54 time=66.1 ms
+64 bytes from 216.58.196.174: icmp_seq=8 ttl=54 time=101 ms
+64 bytes from 216.58.196.174: icmp_seq=9 ttl=54 time=65.8 ms
+64 bytes from 216.58.196.174: icmp_seq=10 ttl=54 time=66.0 ms
+64 bytes from 216.58.196.174: icmp_seq=11 ttl=54 time=65.7 ms
+64 bytes from 216.58.196.174: icmp_seq=12 ttl=54 time=65.9 ms
+64 bytes from 216.58.196.174: icmp_seq=13 ttl=54 time=65.7 ms
+64 bytes from 216.58.196.174: icmp_seq=14 ttl=54 time=132 ms
+64 bytes from 216.58.196.174: icmp_seq=15 ttl=54 time=65.7 ms
+64 bytes from 216.58.196.174: icmp_seq=16 ttl=54 time=66.2 ms
+64 bytes from 216.58.196.174: icmp_seq=17 ttl=54 time=65.6 ms
+64 bytes from 216.58.196.174: icmp_seq=18 ttl=54 time=144 ms
+64 bytes from 216.58.196.174: icmp_seq=19 ttl=54 time=66.0 ms
+64 bytes from 216.58.196.174: icmp_seq=20 ttl=54 time=65.8 ms
+
+--- 216.58.196.174 ping statistics ---
+20 packets transmitted, 20 received, 0% packet loss, time 19030ms
+rtt min/avg/max/mdev = 65.438/79.927/144.917/25.425 ms
+
+
