@@ -34,6 +34,9 @@ int bin_to_int(int arr[], int j){
 char *encode(char *input, char output[]){
     int i=0, len, k=0;
     int temp[24];
+    while(*(input+i) != '\0'){
+        i++;
+    }
     len = i;
     for(i=0; i<len; i+=3){
         char_to_bin(*(input+i), temp, 0);
@@ -61,13 +64,6 @@ char *encode(char *input, char output[]){
             break;
         }
     }
-    int enc_len;
-    if(len%3 == 0) enc_len = 4*len/3;
-    else enc_len = (len/3+1)*4;
-
+    output[k] = '\0';
     return output;
-    // for(int j=0; j<enc_len; j++){
-    //     printf("%c", output[j]);
-    // }
-    // printf("\n");
 }
