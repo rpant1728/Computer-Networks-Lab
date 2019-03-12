@@ -69,12 +69,11 @@ char *encode(char *input, char *output){
     return output;
 }
 
-char *decode(char *input, char *output, int *length){
+char *decode(char *input, char *output){
     int i=0, len, k=0;
     while(*(input+i) != '\0'){
         i++;
     }
-    printf("%s\n", input);
     len = i;
     for(i=0; i<len; i+=4){
         int temp = 0;
@@ -101,6 +100,5 @@ char *decode(char *input, char *output, int *length){
         }
     }
     output[k] = '\0';
-    *length = k;
     return output;
 }

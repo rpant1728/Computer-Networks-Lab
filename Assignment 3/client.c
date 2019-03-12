@@ -50,29 +50,28 @@ int main(int argc, char* argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    char buffer[BUFFER_SIZE];
-    char encoded_msg[BUFFER_SIZE];
+    char buffer[BUFFER_SIZE], encoded_msg[BUFFER_SIZE];
+    int bytes_read;
     while (1) {
         printf("Enter message to be sent:\n");
         scanf ("%[^\n]%*c", buffer);
-        printf("%s", buffer);
-        // fgets(buffer, BUFFER_SIZE, stdin);
         encode(buffer, encoded_msg);
-        printf("%s", encoded_msg);
-        // int retval = send(server_socket, buffer, strlen(buffer), 0);
         int retval = send(server_socket, encoded_msg, strlen(encoded_msg), 0);
         if (retval == -1) {
             perror("send()");
         }
         if (buffer[0] == '1') {
-            int bytes_read = read(server_socket, buffer, BUFFER_SIZE);
+            bytes_read = read(server_socket, buffer, BUFFER_SIZE);
             buffer[bytes_read] = '\0';
             printf("%s\n", buffer);
         }
         else if (buffer[0] == '3') {
+            bytes_read = read(server_socket, buffer, BUFFER_SIZE);
+            buffer[bytes_read] = '\0';
+            printf("%s\n", buffer);
             close(server_socket);
             exit(EXIT_SUCCESS);
         }
-        else perror("Invalid message type\n");
+        else fprintf(stderr, "Message Discarded (Usage: <type> <message>)/n");
     }
 }

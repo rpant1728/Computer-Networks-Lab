@@ -10,7 +10,6 @@
 #include <errno.h>
 #include "base64.c"
 
-#undef MAX
 #define MAX(x,y) ((x) > (y) ? (x) : (y))
 #define MAX_CLIENTS 64
 #define BUFFER_SIZE 2049
@@ -47,8 +46,6 @@ static int set_welcome_socket(int PORT) {
     return welcome_socket;
 }
 
-
-
 int main(int argc, char* argv[]) {
     if (argc != 2) {
         fprintf(stderr, "Server: <executable code><Server Port number>\n");
@@ -60,6 +57,7 @@ int main(int argc, char* argv[]) {
     int ndfs = 0, i = 0, trigger;
     for (i = 0; i < MAX_CLIENTS; i++) active_sockets[i] = 0;
     char buffer[BUFFER_SIZE], decoded_msg[BUFFER_SIZE];
+    int bytes_read, decoded_len;
     fd_set readfds;
 
 
@@ -80,15 +78,11 @@ int main(int argc, char* argv[]) {
         for (i = 0; i < MAX_CLIENTS; i++) {
             if (active_sockets[i]) {
                 FD_SET(active_sockets[i], &readfds);
-                ndfs = MAX(ndfs, active_sockets);
+                ndfs = MAX(ndfs, active_sockets[i]);
             }
         }
 
         trigger = select(ndfs+1, &readfds, NULL, NULL, NULL);
-        // if (trigger == -1 && errno != EINTR) {
-        //     perror("select()");
-        //     exit(EXIT_FAILURE);
-        // }
         if (trigger == -1 && errno == EINTR)
             continue;
 
@@ -121,16 +115,17 @@ int main(int argc, char* argv[]) {
 
             int s = active_sockets[i];
             if (FD_ISSET(s, &readfds)) {
-                int bytes_read = read(s, buffer, BUFFER_SIZE);
+                bytes_read = read(s, buffer, BUFFER_SIZE);
+                buffer[bytes_read] = '\0';
                 printf("%s\n", buffer);
-                int decoded_len;
-                decode(buffer, decoded_msg, &decoded_len);
-                printf("%d\n", decoded_len);
-                // int decoded_len = strlen(decoded_msg);
+                decode(buffer, decoded_msg);
+                decoded_len = strlen(decoded_msg);
                 if (decoded_len == 0) continue;
                 else {
                     if (decoded_msg[0] == '1') {
-                        printf("%s\n", decoded_msg);
+                        getpeername(s, (struct sockaddr *) &client_addr, &len);
+                        printf("Message from socket_fd %d, ip %s, port %d: %s\n",
+                                s, inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port), decoded_msg);
                         if (send(s, ack, strlen(ack), 0) == -1) {
                             perror("ack");
                         }
@@ -145,7 +140,7 @@ int main(int argc, char* argv[]) {
                         close(s);
                         active_sockets[i] = 0;
                     }
-                    else perror("Invalid message type\n");
+                    else fprintf(stderr, "Message Discarded (Usage: <type> <message>)/n");
                 } 
             } 
         }
