@@ -1,43 +1,71 @@
-// Client side C/C++ program to demonstrate Socket programming 
-#include <stdio.h> 
-#include <sys/socket.h> 
-#include <stdlib.h> 
-#include <netinet/in.h> 
-#include <string.h> 
-#define PORT 8080 
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <string.h>
+#include <errno.h>
 
-int main(int argc, char const *argv[]){ 
-	struct sockaddr_in address; 
-	int sock = 0, valread; 
-	struct sockaddr_in serv_addr; 
-	char *hello = "Hello from client"; 
-	char buffer[1024] = {0}; 
-	if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0){ 
-		printf("\n Socket creation error \n"); 
-		return -1; 
-	} 
+#define BUFFER_SIZE 2049
 
-	memset(&serv_addr, '0', sizeof(serv_addr)); 
+static int connect_socket(int server_port, char *server_ip) {
+    struct sockaddr_in server_addr;
+    int server_socket;
 
-	serv_addr.sin_family = AF_INET; 
-	serv_addr.sin_port = htons(PORT); 
-	
-	// Convert IPv4 and IPv6 addresses from text to binary form 
-	if(inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr)<=0){ 
-		printf("\nInvalid address/ Address not supported \n"); 
-		return -1; 
-	} 
+    if ((server_socket = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
+        perror("socket");
+        close(server_socket);
+        return -1;
+    }
+    memset(&server_addr, 0, sizeof(server_addr));
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_port = htons(server_port);
 
-	if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0){ 
-		printf("\nConnection Failed \n"); 
-		return -1; 
-	}
-	while (1) {
-		sleep(3);
-		send(sock, hello, strlen(hello), 0); 
-		printf("Hello message sent\n"); 
-		valread = read(sock, buffer, 1024); 
-		printf("%s\n", buffer);
-	}
-	return 0; 
-} 
+    if (!inet_pton(AF_INET, server_ip, &(server_addr.sin_addr))) {
+        perror("inet_pton");
+        close(server_socket);
+        return -1;
+    }
+
+    if (connect(server_socket, (struct sockaddr *) &server_addr, sizeof(server_addr)) == -1) {
+        perror("connect");
+        close(server_socket);
+        return -1;
+    }
+    return server_socket; 
+}
+
+int main(int argc, char* argv[]) {
+    if (argc != 3) {
+        fprintf(stderr, "<executable code><Server IP Address><Server Port number>\n");
+        exit(EXIT_FAILURE);
+    }
+    char *server_ip = argv[1];
+    int server_port = atoi(argv[2]);
+
+    int server_socket = connect_socket(server_port, server_ip);
+    if (server_socket == -1) {
+        exit(EXIT_FAILURE);
+    }
+
+    char buffer[BUFFER_SIZE];
+    while (1) {
+        printf("Enter message to be sent:\n");
+        fgets (buffer, BUFFER_SIZE, stdin);
+        int retval = send(server_socket, buffer, strlen(buffer), 0);
+        if (retval == -1) {
+            perror("send()");
+        }
+        if (buffer[0] == '1') {
+            int bytes_read = read(server_socket, buffer, BUFFER_SIZE);
+            buffer[bytes_read] = '\0';
+            printf("%s\n", buffer);
+        }
+        else if (buffer[0] == '3') {
+            close(server_socket);
+            exit(EXIT_SUCCESS);
+        }
+        else perror("Invalid message type\n");
+    }
+}
