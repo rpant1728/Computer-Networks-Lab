@@ -6,6 +6,7 @@
 #include <arpa/inet.h>
 #include <string.h>
 #include <errno.h>
+#include "base64.c"
 
 #define BUFFER_SIZE 2049
 
@@ -50,10 +51,16 @@ int main(int argc, char* argv[]) {
     }
 
     char buffer[BUFFER_SIZE];
+    char encoded_msg[BUFFER_SIZE];
     while (1) {
         printf("Enter message to be sent:\n");
-        fgets (buffer, BUFFER_SIZE, stdin);
-        int retval = send(server_socket, buffer, strlen(buffer), 0);
+        scanf ("%[^\n]%*c", buffer);
+        printf("%s", buffer);
+        // fgets(buffer, BUFFER_SIZE, stdin);
+        encode(buffer, encoded_msg);
+        printf("%s", encoded_msg);
+        // int retval = send(server_socket, buffer, strlen(buffer), 0);
+        int retval = send(server_socket, encoded_msg, strlen(encoded_msg), 0);
         if (retval == -1) {
             perror("send()");
         }
