@@ -72,6 +72,6 @@ int main(int argc, char* argv[]) {
             close(server_socket);
             exit(EXIT_SUCCESS);
         }
-        else fprintf(stderr, "Message Discarded (Usage: <type> <message>)/n");
+        else fprintf(stderr, "Message Discarded (Usage: <type> <message>)\n");
     }
 }

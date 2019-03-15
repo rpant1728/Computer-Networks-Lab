@@ -124,8 +124,8 @@ int main(int argc, char* argv[]) {
                 else {
                     if (decoded_msg[0] == '1') {
                         getpeername(s, (struct sockaddr *) &client_addr, &len);
-                        printf("Message from socket_fd %d, ip %s, port %d: %s\n",
-                                s, inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port), decoded_msg);
+                        printf("Message from socket_fd %d, ip %s, port %d:\n%s\n%s\n",
+                                s, inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port), buffer, decoded_msg);
                         if (send(s, ack, strlen(ack), 0) == -1) {
                             perror("ack");
                         }
@@ -140,7 +140,7 @@ int main(int argc, char* argv[]) {
                         close(s);
                         active_sockets[i] = 0;
                     }
-                    else fprintf(stderr, "Message Discarded (Usage: <type> <message>)/n");
+                    else fprintf(stderr, "Message Discarded (Usage: <type> <message>)\n");
                 } 
             } 
         }
