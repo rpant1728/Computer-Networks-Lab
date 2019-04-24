@@ -1,0 +1,5 @@
+./waf --run "scratch/first --transport_prot=TcpNewReno"
+./waf --run "scratch/first --transport_prot=TcpHybla"
+./waf --run "scratch/first --transport_prot=TcpWestwood"
+./waf --run "scratch/first --transport_prot=TcpScalable"
+./waf --run "scratch/first --transport_prot=TcpVegas"
