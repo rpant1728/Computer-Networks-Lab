@@ -17,6 +17,9 @@
 #include "ns3/packet-sink.h"
 #include "ns3/flow-monitor-helper.h"
 #include "ns3/flow-monitor-module.h"
+#include "ns3/traffic-control-helper.h"
+#include "ns3/traffic-control-module.h"
+
 
 using namespace ns3;
 
@@ -61,7 +64,7 @@ static void TxTotalBytesSample(Ptr<OutputStreamWrapper> stream, std::vector <Ptr
 
 int main(int argc, char *argv[]){
 	uint32_t maxBytes = 0;
-  	uint32_t pktSize = 1458;        //in bytes. 1458 to prevent fragments
+  	// uint32_t pktSize = 1458;        //in bytes. 1458 to prevent fragments
 	std::string transport_prot = "TCPNewReno";
 	std::string cwndTrFileName = "Cwnd.tr";
     std::string pktDropFileName = "PktDrop.tr";
@@ -82,12 +85,16 @@ int main(int argc, char *argv[]){
 
 	// Explicitly create the point-to-point link required by the topology(shown above).
 	PointToPointHelper pointToPoint;
-	pointToPoint.SetQueue("ns3::DropTailQueue", "MaxSize", StringValue("10000p"));
+	// TrafficControlHelper tch;
+	// tch.Uninstall()
+	pointToPoint.SetQueue("ns3::DropTailQueue", "MaxSize", StringValue("1p"));
 	pointToPoint.SetDeviceAttribute("DataRate", StringValue("1Mbps"));
 	pointToPoint.SetChannelAttribute("Delay", StringValue("10ms"));
 
 	NetDeviceContainer devices;
 	devices = pointToPoint.Install(nodes);
+	// TrafficControlHelper tch; 
+	// tch.Uninstall (devices); 
 
 	if(transport_prot.compare("TcpNewReno") == 0){ 
 		Config::SetDefault("ns3::TcpL4Protocol::SocketType", TypeIdValue(TcpNewReno::GetTypeId()));
@@ -109,14 +116,19 @@ int main(int argc, char *argv[]){
 	}
 
     // Set error rate to cover losses other than buffer loss
-	Ptr<RateErrorModel> em = CreateObject<RateErrorModel>();
-	em->SetAttribute("ErrorRate", DoubleValue(0.00001));
-	devices.Get(1)->SetAttribute("ReceiveErrorModel", PointerValue(em));
+	// Ptr<RateErrorModel> em = CreateObject<RateErrorModel>();
+	// em->SetAttribute("ErrorRate", DoubleValue(0.00001));
+	// devices.Get(1)->SetAttribute("ReceiveErrorModel", PointerValue(em));
 
 	// Install the internet stack on the nodes
 	InternetStackHelper internet;
 	internet.Install(nodes);
 
+	TrafficControlHelper tch;
+  	tch.SetRootQueueDisc ("ns3::PfifoFastQueueDisc", "MaxSize", StringValue ("10000p"));
+	QueueDiscContainer qdiscs = tch.Install (devices);
+
+	
 	// We've got the "hardware" in place. Now we need to add IP addresses.
 	NS_LOG_INFO("Assign IP Addresses.");
 	Ipv4AddressHelper ipv4;
@@ -128,9 +140,9 @@ int main(int argc, char *argv[]){
 	uint16_t port = 50000;
 	BulkSendHelper source("ns3::TcpSocketFactory",	InetSocketAddress(i.GetAddress(1), port));
 	// Set the amount of data to send in bytes.  Zero is unlimited.
-  	Config::SetDefault("ns3::TcpSocket::SegmentSize", UintegerValue(pktSize));
+  	// Config::SetDefault("ns3::TcpSocket::SegmentSize", UintegerValue(pktSize));
 	source.SetAttribute("MaxBytes", UintegerValue(maxBytes));
-  	source.SetAttribute("SendSize", UintegerValue(pktSize));
+  	// source.SetAttribute("SendSize", UintegerValue(pktSize));
 	ApplicationContainer sourceApps = source.Install(nodes.Get(0));
 	sourceApps.Start(MilliSeconds(0));
 	sourceApps.Stop(MilliSeconds(18000));
@@ -189,9 +201,40 @@ int main(int argc, char *argv[]){
 	
 	Simulator::Stop(MilliSeconds(18000));
 	Simulator::Run();
+
 	
 	Ptr<Ipv4FlowClassifier> classifier = DynamicCast<Ipv4FlowClassifier>(flowHelper.GetClassifier());
 	std::map<FlowId, FlowMonitor::FlowStats> stats = flowMonitor->GetFlowStats();
+	std::cout << std::endl << "*** Flow monitor statistics ***" << std::endl;
+	std::cout << "  Tx Packets/Bytes:   " << stats[1].txPackets
+			<< " / " << stats[1].txBytes << std::endl;
+	std::cout << "  Offered Load: " << stats[1].txBytes * 8.0 / (stats[1].timeLastTxPacket.GetSeconds () - stats[1].timeFirstTxPacket.GetSeconds ()) / 1000000 << " Mbps" << std::endl;
+	std::cout << "  Rx Packets/Bytes:   " << stats[1].rxPackets
+			<< " / " << stats[1].rxBytes << std::endl;
+	uint32_t packetsDroppedByQueueDisc = 0;
+	uint64_t bytesDroppedByQueueDisc = 0;
+	// if (stats[1].packetsDropped.size () > Ipv4FlowProbe::DROP_QUEUE_DISC)
+	// {
+		std::cout << stats[1].packetsDropped.size () << std::endl;
+		// packetsDroppedByQueueDisc = stats[1].packetsDropped[Ipv4FlowProbe::DROP_QUEUE_DISC];
+		// bytesDroppedByQueueDisc = stats[1].bytesDropped[Ipv4FlowProbe::DROP_QUEUE_DISC];
+	// }
+	std::cout << "  Packets/Bytes Dropped by Queue Disc:   " << packetsDroppedByQueueDisc
+			<< " / " << bytesDroppedByQueueDisc << std::endl;
+	uint32_t packetsDroppedByNetDevice = 0;
+	uint64_t bytesDroppedByNetDevice = 0;
+	// if (stats[1].packetsDropped.size () > Ipv4FlowProbe::DROP_QUEUE)
+	// {
+		std::cout << stats[1].packetsDropped.size () << std::endl;
+		// packetsDroppedByNetDevice = stats[1].packetsDropped[Ipv4FlowProbe::DROP_QUEUE];
+		// bytesDroppedByNetDevice = stats[1].bytesDropped[Ipv4FlowProbe::DROP_QUEUE];
+	// }
+	std::cout << "  Packets/Bytes Dropped by NetDevice:   " << packetsDroppedByNetDevice
+			<< " / " << bytesDroppedByNetDevice << std::endl;
+	std::cout << "  Throughput: " << stats[1].rxBytes * 8.0 / (stats[1].timeLastRxPacket.GetSeconds () - stats[1].timeFirstRxPacket.GetSeconds ()) / 1000000 << " Mbps" << std::endl;
+	std::cout << "  Mean delay:   " << stats[1].delaySum.GetSeconds () / stats[1].rxPackets << std::endl;
+	std::cout << "  Mean jitter:   " << stats[1].jitterSum.GetSeconds () / (stats[1].rxPackets - 1) << std::endl;
+
   	for(std::map<FlowId, FlowMonitor::FlowStats>::const_iterator i = stats.begin(); i != stats.end(); ++i){
 		std::cout << " --------------------------------- " << std::endl;
 		std::cout << "Flow Id: " << i->first << std::endl;
