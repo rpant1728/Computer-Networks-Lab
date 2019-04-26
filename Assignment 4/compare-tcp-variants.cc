@@ -43,9 +43,18 @@ static void TraceCwnd(std::string cwndTrFileName){
 	}
 }
 
-static void packetDropSample(Ptr<OutputStreamWrapper> stream){
+// static void packetDropSample(Ptr<OutputStreamWrapper> stream, QueueDiscContainer &queues){
+// 	Ptr<QueueDisc> queueDisk = queues.Get(0);
+// 	packetDropCount = queueDisk->stats.GetNDroppedPackets;
+//   	*stream->GetStream() << Simulator::Now().GetSeconds() << ","  << packetDropCount << std::endl;
+// 	Simulator::Schedule(MilliSeconds(1), &packetDropSample, stream);
+// }
+
+static void packetDropSample(Ptr<OutputStreamWrapper> stream, Ptr<FlowMonitor> flowMonitor){
+	std::map<FlowId, FlowMonitor::FlowStats> stats = flowMonitor->GetFlowStats();
+	packetDropCount = stats[1].lostPackets;
   	*stream->GetStream() << Simulator::Now().GetSeconds() << ","  << packetDropCount << std::endl;
-	Simulator::Schedule(MilliSeconds(1), &packetDropSample, stream);
+	Simulator::Schedule(MilliSeconds(1), &packetDropSample, stream, flowMonitor);
 }
 
 static void packetDropIncrement(Ptr<const Packet> p){
@@ -64,7 +73,7 @@ static void TxTotalBytesSample(Ptr<OutputStreamWrapper> stream, std::vector <Ptr
 
 int main(int argc, char *argv[]){
 	uint32_t maxBytes = 0;
-  	// uint32_t pktSize = 1458;        //in bytes. 1458 to prevent fragments
+  	uint32_t pktSize = 1458;        //in bytes. 1458 to prevent fragments
 	std::string transport_prot = "TCPNewReno";
 	std::string cwndTrFileName = "Cwnd.tr";
     std::string pktDropFileName = "PktDrop.tr";
@@ -125,9 +134,9 @@ int main(int argc, char *argv[]){
 	internet.Install(nodes);
 
 	TrafficControlHelper tch;
-  	tch.SetRootQueueDisc ("ns3::PfifoFastQueueDisc", "MaxSize", StringValue ("10000p"));
+  	tch.SetRootQueueDisc ("ns3::PfifoFastQueueDisc", "MaxSize", StringValue ("50p"));
 	QueueDiscContainer qdiscs = tch.Install (devices);
-
+	//tch.Uninstall(devices);
 	
 	// We've got the "hardware" in place. Now we need to add IP addresses.
 	NS_LOG_INFO("Assign IP Addresses.");
@@ -140,9 +149,9 @@ int main(int argc, char *argv[]){
 	uint16_t port = 50000;
 	BulkSendHelper source("ns3::TcpSocketFactory",	InetSocketAddress(i.GetAddress(1), port));
 	// Set the amount of data to send in bytes.  Zero is unlimited.
-  	// Config::SetDefault("ns3::TcpSocket::SegmentSize", UintegerValue(pktSize));
+  	Config::SetDefault("ns3::TcpSocket::SegmentSize", UintegerValue(pktSize));
 	source.SetAttribute("MaxBytes", UintegerValue(maxBytes));
-  	// source.SetAttribute("SendSize", UintegerValue(pktSize));
+  	source.SetAttribute("SendSize", UintegerValue(pktSize));
 	ApplicationContainer sourceApps = source.Install(nodes.Get(0));
 	sourceApps.Start(MilliSeconds(0));
 	sourceApps.Stop(MilliSeconds(18000));
@@ -164,7 +173,7 @@ int main(int argc, char *argv[]){
 	for(uint16_t it = 0; it < 5; it++) {
         // Create ith constant bit source
 		OnOffHelper onoff("ns3::UdpSocketFactory", Address(InetSocketAddress(i.GetAddress(0), cbr_port+it)));
-		onoff.SetConstantRate(DataRate("300Kbps"));
+		onoff.SetConstantRate(DataRate("300Kbps"), pktSize);
 		ApplicationContainer apps = onoff.Install(nodes.Get(0));
 		apps.Start(MilliSeconds(start_times[it]));
 		apps.Stop(MilliSeconds(stop_times[it]));
@@ -184,20 +193,23 @@ int main(int argc, char *argv[]){
     // Enable congestion window sampler
     Simulator::Schedule(Seconds(0.00001), &TraceCwnd, transport_prot+cwndTrFileName);
 	
-    AsciiTraceHelper ascii;
+    
+	Ptr<FlowMonitor> flowMonitor;
+	FlowMonitorHelper flowHelper;
+	flowMonitor = flowHelper.InstallAll();
+
+	AsciiTraceHelper ascii;
 
 	// Attach packet drop incrementer function
     devices.Get (1)->TraceConnectWithoutContext ("PhyRxDrop", MakeCallback (&packetDropIncrement));
 	Ptr<OutputStreamWrapper> packetDropStream = ascii.CreateFileStream(transport_prot + pktDropFileName);
 	// Schedule first instance of sampler function, then it will schedule itself
-	Simulator::Schedule(MilliSeconds(1), &packetDropSample, packetDropStream);
+	Simulator::Schedule(MilliSeconds(1), &packetDropSample, packetDropStream, flowMonitor);
 
 	Ptr<OutputStreamWrapper> TxTotalByteStream = ascii.CreateFileStream(transport_prot + bytesTxFileName);
 	Simulator::Schedule(MilliSeconds(1), &TxTotalBytesSample, TxTotalByteStream ,sinks);
 	
-	Ptr<FlowMonitor> flowMonitor;
-	FlowMonitorHelper flowHelper;
-	flowMonitor = flowHelper.InstallAll();
+	
 	
 	Simulator::Stop(MilliSeconds(18000));
 	Simulator::Run();
@@ -213,22 +225,22 @@ int main(int argc, char *argv[]){
 			<< " / " << stats[1].rxBytes << std::endl;
 	uint32_t packetsDroppedByQueueDisc = 0;
 	uint64_t bytesDroppedByQueueDisc = 0;
-	// if (stats[1].packetsDropped.size () > Ipv4FlowProbe::DROP_QUEUE_DISC)
-	// {
+	if (stats[1].packetsDropped.size () > Ipv4FlowProbe::DROP_QUEUE_DISC)
+	{
 		std::cout << stats[1].packetsDropped.size () << std::endl;
-		// packetsDroppedByQueueDisc = stats[1].packetsDropped[Ipv4FlowProbe::DROP_QUEUE_DISC];
-		// bytesDroppedByQueueDisc = stats[1].bytesDropped[Ipv4FlowProbe::DROP_QUEUE_DISC];
-	// }
+		packetsDroppedByQueueDisc = stats[1].packetsDropped[Ipv4FlowProbe::DROP_QUEUE_DISC];
+		bytesDroppedByQueueDisc = stats[1].bytesDropped[Ipv4FlowProbe::DROP_QUEUE_DISC];
+	}
 	std::cout << "  Packets/Bytes Dropped by Queue Disc:   " << packetsDroppedByQueueDisc
 			<< " / " << bytesDroppedByQueueDisc << std::endl;
 	uint32_t packetsDroppedByNetDevice = 0;
 	uint64_t bytesDroppedByNetDevice = 0;
-	// if (stats[1].packetsDropped.size () > Ipv4FlowProbe::DROP_QUEUE)
-	// {
+	if (stats[1].packetsDropped.size () > Ipv4FlowProbe::DROP_QUEUE)
+	{
 		std::cout << stats[1].packetsDropped.size () << std::endl;
-		// packetsDroppedByNetDevice = stats[1].packetsDropped[Ipv4FlowProbe::DROP_QUEUE];
-		// bytesDroppedByNetDevice = stats[1].bytesDropped[Ipv4FlowProbe::DROP_QUEUE];
-	// }
+		packetsDroppedByNetDevice = stats[1].packetsDropped[Ipv4FlowProbe::DROP_QUEUE];
+		bytesDroppedByNetDevice = stats[1].bytesDropped[Ipv4FlowProbe::DROP_QUEUE];
+	}
 	std::cout << "  Packets/Bytes Dropped by NetDevice:   " << packetsDroppedByNetDevice
 			<< " / " << bytesDroppedByNetDevice << std::endl;
 	std::cout << "  Throughput: " << stats[1].rxBytes * 8.0 / (stats[1].timeLastRxPacket.GetSeconds () - stats[1].timeFirstRxPacket.GetSeconds ()) / 1000000 << " Mbps" << std::endl;
