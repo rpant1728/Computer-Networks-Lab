@@ -19,6 +19,7 @@
 #include "ns3/flow-monitor-module.h"
 #include "ns3/traffic-control-helper.h"
 #include "ns3/traffic-control-module.h"
+
 using namespace ns3;
 
 NS_LOG_COMPONENT_DEFINE("Compare TCP variants");
@@ -57,7 +58,6 @@ static void TxTotalBytesSample(Ptr<OutputStreamWrapper> stream, std::vector <Ptr
 
 int main(int argc, char *argv[]){
 	uint32_t maxBytes = 0;
-  	uint32_t pktSize = 1458;        //in bytes. 1458 to prevent fragments
 	std::string transport_prot = "TCPNewReno";
 	std::string cwndTrFileName = "Cwnd.tr";
     std::string pktDropFileName = "PktDrop.tr";
@@ -109,7 +109,7 @@ int main(int argc, char *argv[]){
 	internet.Install(nodes);
 
 	TrafficControlHelper tch;
-  	tch.SetRootQueueDisc ("ns3::PfifoFastQueueDisc", "MaxSize", StringValue ("50p"));
+  	tch.SetRootQueueDisc ("ns3::PfifoFastQueueDisc", "MaxSize", StringValue ("5p"));
 	QueueDiscContainer qdiscs = tch.Install (devices);
 	
 	// We've got the "hardware" in place. Now we need to add IP addresses.
@@ -123,23 +123,21 @@ int main(int argc, char *argv[]){
 	uint16_t port = 50000;
 	BulkSendHelper source("ns3::TcpSocketFactory",	InetSocketAddress(i.GetAddress(1), port));
 	// Set the amount of data to send in bytes.  Zero is unlimited.
-  	Config::SetDefault("ns3::TcpSocket::SegmentSize", UintegerValue(pktSize));
 	source.SetAttribute("MaxBytes", UintegerValue(maxBytes));
-  	source.SetAttribute("SendSize", UintegerValue(pktSize));
 	ApplicationContainer sourceApps = source.Install(nodes.Get(0));
 	sourceApps.Start(MilliSeconds(0));
-	sourceApps.Stop(MilliSeconds(18000));
+	sourceApps.Stop(MilliSeconds(1800));
 
 	// Create a PacketSinkApplication and install it on node 1
 	PacketSinkHelper sink("ns3::TcpSocketFactory",	InetSocketAddress(Ipv4Address::GetAny(), port));
 	ApplicationContainer sinkApp = sink.Install(nodes.Get(1));
 	sinkApp.Start(MilliSeconds(0));
-	sinkApp.Stop(MilliSeconds(18000));
+	sinkApp.Stop(MilliSeconds(1800));
 
 	// Add 5 constant bit rate sources
 	uint16_t cbr_port = 10;
-	std::vector<int16_t> start_times{2000, 4000, 6000, 8000, 10000};
-	std::vector<int16_t>  stop_times{18000, 18000, 12000, 14000, 16000};
+	std::vector<int16_t> start_times{200, 400, 600, 800, 1000};
+	std::vector<int16_t>  stop_times{1800, 1800, 1200, 1400, 1600};
 	std::vector<Ptr<PacketSink>> sinks(6);
 
 	sinks[0] = DynamicCast<PacketSink>(sinkApp.Get(0));
@@ -147,7 +145,7 @@ int main(int argc, char *argv[]){
 	for(uint16_t it = 0; it < 5; it++) {
         // Create ith constant bit source
 		OnOffHelper onoff("ns3::UdpSocketFactory", Address(InetSocketAddress(i.GetAddress(0), cbr_port+it)));
-		onoff.SetConstantRate(DataRate("300Kbps"), pktSize);
+		onoff.SetConstantRate(DataRate("300Kbps"));
 		ApplicationContainer apps = onoff.Install(nodes.Get(0));
 		apps.Start(MilliSeconds(start_times[it]));
 		apps.Stop(MilliSeconds(stop_times[it]));
@@ -167,6 +165,7 @@ int main(int argc, char *argv[]){
     // Enable congestion window sampler
     Simulator::Schedule(Seconds(0.00001), &TraceCwnd, transport_prot+cwndTrFileName);
 	
+    
 	Ptr<FlowMonitor> flowMonitor;
 	FlowMonitorHelper flowHelper;
 	flowMonitor = flowHelper.InstallAll();
@@ -177,9 +176,9 @@ int main(int argc, char *argv[]){
 	Simulator::Schedule(Seconds(0.00001), &packetDropSample, packetDropStream, flowMonitor);
 
 	Ptr<OutputStreamWrapper> TxTotalByteStream = ascii.CreateFileStream(transport_prot + bytesTxFileName);
-	Simulator::Schedule(Seconds(0.00001), &TxTotalBytesSample, TxTotalByteStream ,sinks);
-
-	Simulator::Stop(MilliSeconds(18000));
+	Simulator::Schedule(Seconds(0.00001), &TxTotalBytesSample, TxTotalByteStream, sinks);
+	
+	Simulator::Stop(MilliSeconds(1800));
 	Simulator::Run();
 	
 	Ptr<Ipv4FlowClassifier> classifier = DynamicCast<Ipv4FlowClassifier>(flowHelper.GetClassifier());

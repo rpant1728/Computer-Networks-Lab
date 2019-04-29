@@ -17,7 +17,7 @@ lines2 = contents2.split('\n')
 lines3 = contents3.split('\n')
 lines4 = contents4.split('\n')
 
-f5 = open("output1.csv", "w")
+f5 = open("outputBytesTx.csv", "w")
 f5.write("Time,TcpHybla,TcpNewReno,TcpScalable,TcpVegas,TcpWestwood" + "\n")
 
 for i,line in enumerate(lines):
