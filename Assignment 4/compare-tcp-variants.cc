@@ -19,11 +19,7 @@
 #include "ns3/flow-monitor-module.h"
 #include "ns3/traffic-control-helper.h"
 #include "ns3/traffic-control-module.h"
-
-
 using namespace ns3;
-
-uint32_t packetDropCount = 0;
 
 NS_LOG_COMPONENT_DEFINE("Compare TCP variants");
 
@@ -43,23 +39,11 @@ static void TraceCwnd(std::string cwndTrFileName){
 	}
 }
 
-// static void packetDropSample(Ptr<OutputStreamWrapper> stream, QueueDiscContainer &queues){
-// 	Ptr<QueueDisc> queueDisk = queues.Get(0);
-// 	packetDropCount = queueDisk->stats.GetNDroppedPackets;
-//   	*stream->GetStream() << Simulator::Now().GetSeconds() << ","  << packetDropCount << std::endl;
-// 	Simulator::Schedule(MilliSeconds(1), &packetDropSample, stream);
-// }
-
 static void packetDropSample(Ptr<OutputStreamWrapper> stream, Ptr<FlowMonitor> flowMonitor){
 	std::map<FlowId, FlowMonitor::FlowStats> stats = flowMonitor->GetFlowStats();
-	packetDropCount = stats[1].lostPackets;
+	uint32_t packetDropCount = stats[1].lostPackets;
   	*stream->GetStream() << Simulator::Now().GetSeconds() << ","  << packetDropCount << std::endl;
-	Simulator::Schedule(MilliSeconds(1), &packetDropSample, stream, flowMonitor);
-}
-
-static void packetDropIncrement(Ptr<const Packet> p){
-  	NS_LOG_UNCOND("Packet drop at " << Simulator::Now().GetSeconds());
-	packetDropCount++;
+	Simulator::Schedule(Seconds(0.0001), &packetDropSample, stream, flowMonitor);
 }
 
 static void TxTotalBytesSample(Ptr<OutputStreamWrapper> stream, std::vector <Ptr<PacketSink>> sinks){
@@ -68,7 +52,7 @@ static void TxTotalBytesSample(Ptr<OutputStreamWrapper> stream, std::vector <Ptr
 		totalBytes += sinks[it]->GetTotalRx();
 	}
 	*stream->GetStream() << Simulator::Now().GetSeconds() << ","  << totalBytes << std::endl;
-	Simulator::Schedule(Seconds(0.001), &TxTotalBytesSample, stream, sinks);
+	Simulator::Schedule(Seconds(0.0001), &TxTotalBytesSample, stream, sinks);
 }
 
 int main(int argc, char *argv[]){
@@ -94,16 +78,12 @@ int main(int argc, char *argv[]){
 
 	// Explicitly create the point-to-point link required by the topology(shown above).
 	PointToPointHelper pointToPoint;
-	// TrafficControlHelper tch;
-	// tch.Uninstall()
 	pointToPoint.SetQueue("ns3::DropTailQueue", "MaxSize", StringValue("1p"));
 	pointToPoint.SetDeviceAttribute("DataRate", StringValue("1Mbps"));
 	pointToPoint.SetChannelAttribute("Delay", StringValue("10ms"));
 
 	NetDeviceContainer devices;
 	devices = pointToPoint.Install(nodes);
-	// TrafficControlHelper tch; 
-	// tch.Uninstall (devices); 
 
 	if(transport_prot.compare("TcpNewReno") == 0){ 
 		Config::SetDefault("ns3::TcpL4Protocol::SocketType", TypeIdValue(TcpNewReno::GetTypeId()));
@@ -124,11 +104,6 @@ int main(int argc, char *argv[]){
 		Config::SetDefault("ns3::TcpL4Protocol::SocketType", TypeIdValue(TcpNewReno::GetTypeId()));
 	}
 
-    // Set error rate to cover losses other than buffer loss
-	// Ptr<RateErrorModel> em = CreateObject<RateErrorModel>();
-	// em->SetAttribute("ErrorRate", DoubleValue(0.00001));
-	// devices.Get(1)->SetAttribute("ReceiveErrorModel", PointerValue(em));
-
 	// Install the internet stack on the nodes
 	InternetStackHelper internet;
 	internet.Install(nodes);
@@ -136,7 +111,6 @@ int main(int argc, char *argv[]){
 	TrafficControlHelper tch;
   	tch.SetRootQueueDisc ("ns3::PfifoFastQueueDisc", "MaxSize", StringValue ("50p"));
 	QueueDiscContainer qdiscs = tch.Install (devices);
-	//tch.Uninstall(devices);
 	
 	// We've got the "hardware" in place. Now we need to add IP addresses.
 	NS_LOG_INFO("Assign IP Addresses.");
@@ -193,27 +167,20 @@ int main(int argc, char *argv[]){
     // Enable congestion window sampler
     Simulator::Schedule(Seconds(0.00001), &TraceCwnd, transport_prot+cwndTrFileName);
 	
-    
 	Ptr<FlowMonitor> flowMonitor;
 	FlowMonitorHelper flowHelper;
 	flowMonitor = flowHelper.InstallAll();
 
 	AsciiTraceHelper ascii;
-
-	// Attach packet drop incrementer function
-    devices.Get (1)->TraceConnectWithoutContext ("PhyRxDrop", MakeCallback (&packetDropIncrement));
 	Ptr<OutputStreamWrapper> packetDropStream = ascii.CreateFileStream(transport_prot + pktDropFileName);
 	// Schedule first instance of sampler function, then it will schedule itself
-	Simulator::Schedule(MilliSeconds(1), &packetDropSample, packetDropStream, flowMonitor);
+	Simulator::Schedule(Seconds(0.00001), &packetDropSample, packetDropStream, flowMonitor);
 
 	Ptr<OutputStreamWrapper> TxTotalByteStream = ascii.CreateFileStream(transport_prot + bytesTxFileName);
-	Simulator::Schedule(MilliSeconds(1), &TxTotalBytesSample, TxTotalByteStream ,sinks);
-	
-	
-	
+	Simulator::Schedule(Seconds(0.00001), &TxTotalBytesSample, TxTotalByteStream ,sinks);
+
 	Simulator::Stop(MilliSeconds(18000));
 	Simulator::Run();
-
 	
 	Ptr<Ipv4FlowClassifier> classifier = DynamicCast<Ipv4FlowClassifier>(flowHelper.GetClassifier());
 	std::map<FlowId, FlowMonitor::FlowStats> stats = flowMonitor->GetFlowStats();
@@ -253,8 +220,6 @@ int main(int argc, char *argv[]){
 		std::cout << "Tx Bytes: " << i->second.txBytes  << std::endl;
 		std::cout << "Drop Packet Count: " << i->second.lostPackets << std::endl;
 	}
-
-	// flowMonitor->SerializeToXmlFile("abc.xml", true, true);
 
 	Simulator::Destroy();
 	NS_LOG_INFO("Done.");
