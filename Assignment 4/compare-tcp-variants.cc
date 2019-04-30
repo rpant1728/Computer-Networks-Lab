@@ -149,7 +149,7 @@ int main(int argc, char *argv[]){
 
 	for(uint16_t it = 0; it < 5; it++) {
         // Create ith constant bit source
-		OnOffHelper onoff("ns3::UdpSocketFactory", Address(InetSocketAddress(i.GetAddress(0), cbr_port+it)));
+		OnOffHelper onoff("ns3::UdpSocketFactory", Address(InetSocketAddress(i.GetAddress(1), cbr_port+it)));
 		onoff.SetConstantRate(DataRate("300Kbps"));
 		ApplicationContainer apps = onoff.Install(nodes.Get(0));
 		apps.Start(MilliSeconds(start_times[it]));
