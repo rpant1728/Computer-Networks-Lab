@@ -24,10 +24,12 @@ using namespace ns3;
 
 NS_LOG_COMPONENT_DEFINE("Compare TCP variants");
 
+// Function passed to tracesource which invokes it each time cwnd changes.
 static void CwndTracer(Ptr<OutputStreamWrapper>stream, uint32_t oldval, uint32_t newval){
 	*stream->GetStream() << Simulator::Now().GetSeconds() << "," << newval << std::endl;
 }
 
+// Function to attach CwndTracer function to tracesource
 static void TraceCwnd(std::string cwndTrFileName){
 	AsciiTraceHelper ascii;
 	if(cwndTrFileName.compare("") == 0){
@@ -40,17 +42,19 @@ static void TraceCwnd(std::string cwndTrFileName){
 	}
 }
 
+// Function to extract lost packets from flowMonitor every 0.0001 seconds and print it to file
 static void packetDropSample(Ptr<OutputStreamWrapper> stream, Ptr<FlowMonitor> flowMonitor){
 	std::map<FlowId, FlowMonitor::FlowStats> stats = flowMonitor->GetFlowStats();
-	uint32_t packetDropCount = stats[1].lostPackets;
+	uint32_t packetDropCount = stats[1].lostPackets; // stats[1] for the FTP (tcp) flow
   	*stream->GetStream() << Simulator::Now().GetSeconds() << ","  << packetDropCount << std::endl;
-	Simulator::Schedule(Seconds(0.0001), &packetDropSample, stream, flowMonitor);
+	Simulator::Schedule(Seconds(0.0001), &packetDropSample, stream, flowMonitor); // Schedule next sample
 }
 
+// Function to calculate cumulative bytes transferred every 0.0001 seconds and print it to file
 static void TxTotalBytesSample(Ptr<OutputStreamWrapper> stream, std::vector <Ptr<PacketSink>> sinks){
 	uint32_t totalBytes = 0;
-	for (uint32_t it = 0; it < 6; it++){
-		totalBytes += sinks[it]->GetTotalRx();
+	for (uint32_t it = 0; it < 6; it++){ // Add bytesTx of 1 ftp app + 5 cbr udp apps 
+		totalBytes += sinks[it]->GetTotalRx(); 
 	}
 	*stream->GetStream() << Simulator::Now().GetSeconds() << ","  << totalBytes << std::endl;
 	Simulator::Schedule(Seconds(0.0001), &TxTotalBytesSample, stream, sinks);
@@ -85,6 +89,7 @@ int main(int argc, char *argv[]){
 	NetDeviceContainer devices;
 	devices = pointToPoint.Install(nodes);
 
+	//Setting TCP protocol using argument passed in the command line
 	if(transport_prot.compare("TcpNewReno") == 0){ 
 		Config::SetDefault("ns3::TcpL4Protocol::SocketType", TypeIdValue(TcpNewReno::GetTypeId()));
 	}
@@ -175,14 +180,18 @@ int main(int argc, char *argv[]){
 	// Schedule first instance of sampler function, then it will schedule itself
 	Simulator::Schedule(Seconds(0.00001), &packetDropSample, packetDropStream, flowMonitor);
 
+	// Schedule first tx bytes sample function pass its file stream 
 	Ptr<OutputStreamWrapper> TxTotalByteStream = ascii.CreateFileStream(transport_prot + bytesTxFileName);
 	Simulator::Schedule(Seconds(0.00001), &TxTotalBytesSample, TxTotalByteStream, sinks);
 	
 	Simulator::Stop(MilliSeconds(1800));
 	Simulator::Run();
 	
+	// Create a flow monitor to obtains stats for monitoting data values
 	Ptr<Ipv4FlowClassifier> classifier = DynamicCast<Ipv4FlowClassifier>(flowHelper.GetClassifier());
 	std::map<FlowId, FlowMonitor::FlowStats> stats = flowMonitor->GetFlowStats();
+
+	// Print data values using flow-monitor
 	std::cout << std::endl << "*** Flow monitor statistics ***" << std::endl;
 	std::cout << "  Tx Packets/Bytes:   " << stats[1].txPackets
 			<< " / " << stats[1].txBytes << std::endl;
